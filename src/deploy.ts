@@ -38,32 +38,7 @@ async function init() {
         commonContentUrl: `ipfs://${metadataIpfsHash}/`,
     };
     const collection = new NftCollection(collectionData);
-
-    const files = await readdirSync(metadataFolderPath);
-    console.log(`Start deploy of ${files.length} NFTs`);
-    console.table(files);
-    files.pop();
-    let index = 0;
-    console.log(`Start top-up balance...`)
-    let seqno = await collection.topUpBalance(wallet, files.length);
-    await waitSeqno(seqno, wallet);
-    console.log(`Balance top-upped`);
-    for (const file of files) {
-        console.log(`Start deploy of ${index + 1} NFT`);
-        const mintParams = {
-            queryId: 0,
-            itemOwnerAddress: wallet.contract.address,
-            itemIndex: index,
-            amount: toNano("0.05"),
-            commonContentUrl: file,
-        };
-
-        const nftItem = new NftItem(collection);
-        seqno = await nftItem.deploy(wallet, mintParams);
-        console.log(`Successfully deployed ${index + 1} NFT`);
-        await waitSeqno(seqno, wallet);
-        index++;
-    }
+    console.log("Connection deployed at", collection.address);
 }
 
 void init();

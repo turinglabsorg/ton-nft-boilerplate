@@ -82,7 +82,6 @@ export class NftCollection {
     }
     public get address(): Address {
         if (this.collectionAddress !== undefined) {
-            console.log("Collection address is already defined, using it.");
             return this.collectionAddress;
         }
         return contractAddress(0, this.stateInit);

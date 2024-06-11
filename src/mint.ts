@@ -12,7 +12,6 @@ dotenv.config();
 
 async function init() {
     const metadataFolderPath = "./metadata/";
-    const imagesFolderPath = "./images/";
 
     const wallet = await openWallet(process.env.MNEMONIC!.split(" "), true);
     console.log(`Wallet opened: ${wallet.contract.address}`);
@@ -40,12 +39,14 @@ async function init() {
     console.log(`Start deploy of ${files.length} NFTs`);
     console.table(files);
     files.pop();
+    files.pop();
     let index = 0;
     console.log(`Start top-up balance...`)
     seqno = await collection.topUpBalance(wallet, files.length);
     await waitSeqno(seqno, wallet);
     console.log(`Balance top-upped`);
     for (const file of files) {
+        if(file === '.DS_Store' || file === 'collection.json') continue;
         console.log(`Start deploy of ${index + 1} NFT`);
         const mintParams = {
             queryId: 0,
