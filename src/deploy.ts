@@ -38,7 +38,11 @@ async function init() {
         commonContentUrl: `ipfs://${metadataIpfsHash}/`,
     };
     const collection = new NftCollection(collectionData);
+    const seqno = await collection.deploy(wallet);
     console.log("Connection deployed at", collection.address);
+    console.log("Waiting for the transaction to be confirmed at:", seqno);
+    await waitSeqno(seqno, wallet);
+    console.log("Collection deployed successfully.");
 }
 
 void init();
